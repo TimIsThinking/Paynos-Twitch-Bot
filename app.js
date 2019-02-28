@@ -79,5 +79,3 @@ client.on('chat', (channel, user, message, self) => {
 client.on('connected', (address, port) => {
     console.log(`Connected to ${address}:${port}`);
 });
-
-// MF22haTPb3mc
