@@ -1,6 +1,7 @@
 require('dotenv').config()
 
 const tmi = require('tmi.js');
+const fetch = require("node-fetch")
 
 let prefix = '!';
 let discordLink = 'discordapp.com/invite/cmh6NmH';
@@ -47,10 +48,14 @@ client.on('chat', (channel, user, message, self) => {
 
     if (command === 'hate') {
         client.say(channel, '"I have a complete disdain for twitch chat bots, I think they are the worst thing ever" - PaynosTV 2018');
-    } else if (command === 'yeet') {
+    } 
+    
+    else if (command === 'yeet') {
         let eNumber = getRandomInt(10);
         client.say(channel, `YEE${'E'.repeat(eNumber)}T`);
-    } else if (command === 'respectwomen') {
+    }
+    
+    else if (command === 'respectwomen') {
         let replyStr = '';
         replyStr += user['display-name'];
         replyStr += ' ';
@@ -69,11 +74,36 @@ client.on('chat', (channel, user, message, self) => {
         replyStr += '!';
 
         client.say(channel, replyStr); 
-    } else if (command === 'discord') {
+    }
+    
+    else if (command === 'discord') {
         client.say(channel, discordLink);
-    } else if (command === 'youtube') {
+    }
+    
+    else if (command === 'youtube') {
         client.say(channel, youtubeLink)
     }
+
+    else if (command === 'subcount') {
+
+        fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${process.env.YOUTUBE_CHANNEL_ID}&key=${process.env.YOUTUBE_API_KEY}`)
+        .then(res => res.json())
+        .then(dataJson => {
+            const subCountMessage = `Youtube Subs: ${dataJson.items[0].statistics.subscriberCount}`
+            client.say(channel, subCountMessage)
+        })
+    }
+
+    else if (command === 'viewcount') {
+
+        fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${process.env.YOUTUBE_CHANNEL_ID}&key=${process.env.YOUTUBE_API_KEY}`)
+        .then(res => res.json())
+        .then(dataJson => {
+            const viewCountMessage = `Youtube Views: ${dataJson.items[0].statistics.viewCount}`
+            client.say(channel, viewCountMessage)
+        })
+    }
+
 });
 
 client.on('connected', (address, port) => {
