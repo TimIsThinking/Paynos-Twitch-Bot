@@ -104,6 +104,11 @@ client.on('chat', (channel, user, message, self) => {
         })
     }
 
+    else if (command === 'paynosw') {
+        let paynoswNumber = getRandomInt(50);
+        client.say(channel, `${'paynosW '.repeat(paynoswNumber)}`);
+    }
+
 });
 
 client.on('connected', (address, port) => {
